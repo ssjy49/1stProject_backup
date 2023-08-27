@@ -23,6 +23,13 @@
             <p><%=boardDTO.getNoticeContent() %></p>
             <small>작성일: <%=boardDTO.getNoticeIssueDate() %></small>
         </div>
+          <div class="add-button">
+            <button onclick="window.location.href='noticeUpdate.nbo'">공지 수정</button>
+        </div>
+          <div class="add-button">
+            <button onclick="window.location.href='noticeDelete.nbo'">공지 삭제</button>
+        </div>
     </div>
+    
 </body>
 </html>

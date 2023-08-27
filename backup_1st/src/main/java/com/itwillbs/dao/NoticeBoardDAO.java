@@ -88,6 +88,7 @@ public class NoticeBoardDAO {
 		return boardList;
 	}
 	public NoticeBoardDTO getBoard(int noticeNum) {
+		System.out.println("NoticeBoardDAO getMember()");
 		NoticeBoardDTO boardDTO = null;
 		try {
 			con = new SQLConnection().getConnection();
@@ -95,6 +96,7 @@ public class NoticeBoardDAO {
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, noticeNum);
 			rs =pstmt.executeQuery();
+			
 			if(rs.next()) {
 			boardDTO = new NoticeBoardDTO();
 			boardDTO.setNoticeNum(rs.getInt("noticeNum"));

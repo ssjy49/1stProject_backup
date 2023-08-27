@@ -24,6 +24,76 @@ public class MemberDAO {
 		if(con != null) {try {con.close();} catch (SQLException e) {	}}
 	}
 	
+	// Guest 회원가입 
+		public void insertGuest(MemberDTO memberDTO) {
+			System.out.println("MemberDAO insertGuest()");
+			try {
+				// 1단계 JDBC 프로그램 가져오기 
+				// 2단계 디비 연결
+				con = new SQLConnection().getConnection();
+				// 3단계 문자열 -> sql구문 변경
+				String sql = "insert into member(memberId,memberPassword,memberNickname,memberName,memberBirthday,memberGender,memberPhoneNum,memberEmail,memberLocation) values(?,?,?,?,?,?,?,?,?)";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, memberDTO.getMemberId());
+				pstmt.setString(2, memberDTO.getMemberPassword()); 
+				pstmt.setString(3, memberDTO.getMemberNickname());
+				pstmt.setString(4, memberDTO.getMemberName());
+				pstmt.setString(5, memberDTO.getMemberBirthday());
+				pstmt.setString(6, memberDTO.getMemberGender());
+				pstmt.setString(7, memberDTO.getMemberPhoneNum());
+				pstmt.setString(8, memberDTO.getMemberEmail());
+				pstmt.setString(9, memberDTO.getMemberLocation());
+
+				// 4단계 sql구문 실행
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				dbClose();
+			}
+			
+		}//insertMember()
+		
+	// insertHost
+	public void insertHost(MemberDTO memberDTO) {
+		System.out.println("MemberDAO insertHost()");
+		System.out.println("바구니(MemberDTO) 주소값 : " + memberDTO);
+		System.out.println("주소를 찾아가서 Id값 가져오기 : " + memberDTO.getMemberId());
+		System.out.println("주소를 찾아가서 Password값 가져오기 : " + memberDTO.getMemberPassword());
+		System.out.println("주소를 찾아가서 Name값 가져오기 : " + memberDTO.getMemberName());
+		System.out.println("주소를 찾아가서 Nickname값 가져오기 : " + memberDTO.getMemberNickname());
+		System.out.println("주소를 찾아가서 Gender값 가져오기 : " + memberDTO.getMemberGender());
+		System.out.println("주소를 찾아가서 Birthday값 가져오기 : " + memberDTO.getMemberBirthday());
+		System.out.println("주소를 찾아가서 PhoneNum값 가져오기 : " + memberDTO.getMemberPhoneNum());
+		System.out.println("주소를 찾아가서 Email값 가져오기 : " + memberDTO.getMemberEmail());
+		System.out.println("주소를 찾아가서 BusinessNum값 가져오기 : " + memberDTO.getBusinessNum());
+
+		try {
+			con=new SQLConnection().getConnection();
+
+			String sql = "insert into member(memberId,memberPassword,memberNickname,memberName,memberBirthday,memberGender,memberPhoneNum,memberEmail,memberLocation) values(?,?,?,?,?,?,?,?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, memberDTO.getMemberId());
+			pstmt.setString(2, memberDTO.getMemberPassword()); 
+			pstmt.setString(3, memberDTO.getMemberNickname());
+			pstmt.setString(4, memberDTO.getMemberName());
+			pstmt.setString(5, memberDTO.getMemberBirthday());
+			pstmt.setString(6, memberDTO.getMemberGender());
+			pstmt.setString(7, memberDTO.getMemberPhoneNum());
+			pstmt.setString(8, memberDTO.getMemberEmail());
+			pstmt.setString(9, memberDTO.getBusinessNum());
+
+			// sql구문 실행결과를 ResultSet 내장객체에 저장
+			pstmt.executeUpdate();
+					
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			dbClose();
+		}	
+	}
+	
 	public MemberDTO userCheck(MemberDTO memberDTO2) {
 		System.out.println("MemberDAO userCheck()");
 		// MemberDTO 선언 초기값 null (return 하기위해 try/catch 밖으로 뺐음)
@@ -83,7 +153,38 @@ public class MemberDAO {
 		// 아이디 비밀번호가 일치하면 MemberDTO 주소값 리턴;
 		// 아이디 비밀번호가 다르면 MemberDTO null값 리턴;
 		return memberDTO;
-	}// userCheck()
+	}// userCheck() 
+	
+	public MemberDTO userInfoCheck(MemberDTO memberDTO3) {
+		System.out.println("MemberDAO userInfoCheck()");
+		MemberDTO memberDTO = null;
+		try {
+			System.out.println("DAO try");
+			//1단계 JDBC 프로그램 가져오기
+			//2단계 디비 연결
+			con = new SQLConnection().getConnection(); 
+			//3단계 sql문 
+			String sql = "select memberId from member where memberName = ? and memberEmail = ?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, memberDTO3.getMemberName());
+			pstmt.setString(2, memberDTO3.getMemberEmail());
+			System.out.println(pstmt);
+			
+			//4단계 sql구문 실행한 결과를 ResultSet(변수rs)으로 저장하겠다
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				System.out.println("DAO if");
+				memberDTO = new MemberDTO();
+				memberDTO.setMemberId(rs.getString("MemberId"));
+		      }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return memberDTO;
+	}
 
 	public MemberDTO pwCheck(MemberDTO memberDTO2) {
 		System.out.println("MemberDAO pwCheck()");
@@ -204,4 +305,6 @@ public class MemberDAO {
 			dbClose();
 		}
 	}//updatePwMember()
+
+
 }
