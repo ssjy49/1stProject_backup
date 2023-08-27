@@ -103,6 +103,16 @@ public class ClassBoardController extends HttpServlet {
 			response.sendRedirect("classList.cbo");
 		} // classWritePro
 		
+		if(sPath.equals("/classContent.cbo")) { // 클래스 리스트에서 게시물 클릭하면 글내용보기 
+			System.out.println("뽑은 가상주소 비교  : /classContent.cbo");
+			// BoardService 객체생성
+			boardService = new ClassBoardService();
+			ClassBoardDTO boardDTO = boardService.getBoard(request);
+			request.setAttribute("boardDTO", boardDTO);
+			dispatcher = request.getRequestDispatcher("board/class/content.jsp");
+			dispatcher.forward(request, response);
+		}// classContent
+		
 		if(sPath.equals("/classUpdate.cbo")) { // 클래스 수정
 			// BoardService 객체생성
 			boardService = new ClassBoardService();
@@ -132,6 +142,8 @@ public class ClassBoardController extends HttpServlet {
 			// 주소 변경되면서 list.bo 이동 
 			response.sendRedirect("list.bo");
 		} // classDelete
+		
+		
 		
 	} // doProcess
 }// class

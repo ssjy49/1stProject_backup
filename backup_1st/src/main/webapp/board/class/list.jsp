@@ -114,6 +114,7 @@
 <%
 List<ClassBoardDTO> boardList =(List<ClassBoardDTO>)request.getAttribute("boardList");
 PageDTO pageDTO = (PageDTO)request.getAttribute("pageDTO");
+String memberId = (String)session.getAttribute("memberId");
 %>
         <div class="product-list">
         
@@ -121,7 +122,7 @@ PageDTO pageDTO = (PageDTO)request.getAttribute("pageDTO");
 for(int i=0; i<boardList.size(); i++){
 	ClassBoardDTO boardDTO = boardList.get(i);
 	%>
-             <a href="#" class="product">
+             <a href="classContent.cbo?classNum=<%=boardDTO.getClassNum() %>" class="product">
                 <img src="images/cat-space.gif" width="225" height="225px">
                 <div class="product-name">
                 	제목 : <%=boardDTO.getClassSubject() %>
@@ -135,7 +136,7 @@ for(int i=0; i<boardList.size(); i++){
 }
 %>
 
-  <input type="button" value="클래스 등록" class="btn" 
+   <input type="button" value="클래스 등록" class="btn" 
        					onclick="location.href='classWrite.cbo'">
   <input type="button" value="클래스 수정" class="btn" 
        					onclick="location.href='classUpdate.cbo'">

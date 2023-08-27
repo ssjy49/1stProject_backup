@@ -41,7 +41,7 @@ public class ClassBoardDAO {
 				ClassBoardDTO boardDTO = new ClassBoardDTO();
 				boardDTO.setClassNum(rs.getInt("classNum"));
 				boardDTO.setClassSubject(rs.getString("classSubject"));
-				boardDTO.setHostNum(rs.getInt("hostNum"));
+				boardDTO.setHostId(rs.getString("hostId"));
 				boardDTO.setClassIssueDate(rs.getTimestamp("classIssuedate"));
 				boardDTO.setClassLocation(rs.getString("classLocation"));
 				boardDTO.setClassCategory(rs.getString("classCategory"));
@@ -93,13 +93,14 @@ public class ClassBoardDAO {
 			con = new SQLConnection().getConnection();
 
 			// 3단계 문자열 -> sql구문 변경
-			String sql = "insert into class(classSubject,classPrice,classCategory,classLocation,classContent) values(?,?,?,?,?)";
+			String sql = "insert into class(classSubject,hostId,classPrice,classCategory,classLocation,classContent) values(?,?,?,?,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, boardDTO.getClassSubject()); 
-			pstmt.setInt(2, boardDTO.getClassPrice());
-			pstmt.setString(3, boardDTO.getClassCategory());
-			pstmt.setString(4, boardDTO.getClassLocation());
-			pstmt.setString(5, boardDTO.getClassContent());
+			pstmt.setString(2, boardDTO.getHostId()); 
+			pstmt.setInt(3, boardDTO.getClassPrice());
+			pstmt.setString(4, boardDTO.getClassCategory());
+			pstmt.setString(5, boardDTO.getClassLocation());
+			pstmt.setString(6, boardDTO.getClassContent());
 			// 파일 추가 
 //			pstmt.setString(7, boardDTO.getFile());
 			// 4단계 sql구문 실행
@@ -110,26 +111,23 @@ public class ClassBoardDAO {
 		}finally {
 			dbClose();
 		}
-	}//insertBoard
+	}//insertBoard()
 
 	public ClassBoardDTO getBoard(int classNum) {
+		System.out.println("ClassBoardDAO getBoard()");
 		ClassBoardDTO boardDTO = null;
 		try {
-			// 1단계 JDBC 프로그램 가져오기 
-			// 2단계 디비 연결
-			con= new SQLConnection().getConnection();
-			// 3단계  classNum 기준으로 내림차순
-			String sql = "select * from class where classNum = ?";
+			con = new SQLConnection().getConnection();
+			String sql = "select * from class where classNum=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, classNum);
-			// //4단계 sql구문 실행 => 실행결과 ResultSet 내장객체에 저장
 			rs =pstmt.executeQuery();
-			//5단계
+			
 			if(rs.next()) {
 				boardDTO = new ClassBoardDTO();
 				boardDTO.setClassNum(rs.getInt("classNum"));
 				boardDTO.setClassSubject(rs.getString("classSubject"));
-				boardDTO.setHostNum(rs.getInt("hostNum"));
+				boardDTO.setHostId(rs.getString("hostId"));
 				boardDTO.setClassIssueDate(rs.getTimestamp("classIssuedate"));
 				boardDTO.setClassLocation(rs.getString("classLocation"));
 				boardDTO.setClassCategory(rs.getString("classCategory"));
@@ -142,8 +140,8 @@ public class ClassBoardDAO {
 			dbClose();
 		}
 		return boardDTO;
-	}// getBoard
-
+	} // getBoard
+	
 	public void updateBoard(ClassBoardDTO boardDTO) {
 		try {
 			// 1단계 JDBC 프로그램 가져오기 
@@ -184,5 +182,5 @@ public class ClassBoardDAO {
 				dbClose();
 			}
 	}// deleteBoard
-
+	
 }

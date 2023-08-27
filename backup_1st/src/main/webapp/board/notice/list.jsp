@@ -37,7 +37,7 @@ for(int i=0; i<boardList.size(); i++){
 }
 %>
     <div class="add-button">
-            <button onclick="window.location.href='noticeWrite.nbo'">공지 작성</button>
+            <button onclick="window.location.href='/TeamProject/noticeWrite.nbo'">공지 작성</button>
         </div>
 </div>
 
