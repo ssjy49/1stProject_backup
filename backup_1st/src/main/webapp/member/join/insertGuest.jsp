@@ -14,7 +14,7 @@
 <h1>게스트 회원가입</h1>
 
 <!-- form -->
-<form action="insertGuest.gme" method="post" id="fr">
+<form action="insertProGuest.me" method="post" id="fr">
 
 아이디 : <input type="text" name="id" id="id"> <input type="button" value="중복확인" name="idup" id="idup"><br>
 	   <div id="div1"></div>
@@ -33,10 +33,10 @@
       <div id="div7"></div>
 전화번호 : <input type="text" name="phone1" id="phone1" maxlength="3" size="3">-<input type="text" name="phone2" id="phone2" maxlength="4" size="4">-<input type="text" name="phone3" id="phone3" maxlength="4" size="4"><br>
 	    <div id="div8"></div>
-이메일 : <input type="text" name="email" id="email">@<select name="emailop" id="emailop">
+이메일 : <input type="text" name="emailop1" id="emailop1">@<select name="emailop2" id="emailop2">
 												   <option value="">이메일을 선택해주세요</option>
-												   <option value="naver">naver.com</option>
-												   <option value="gmail">gmail.com</option>
+												   <option value="naver.com">naver.com</option>
+												   <option value="gmail.com">gmail.com</option>
         							   		   	   </select><br>
         							   		   	   <div id="div9"></div>
 지역 : <select name="address" id="address">
@@ -52,7 +52,7 @@
 </form>
 
 <!-- script -->
-<script type="text/javascript" src="../../script/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="script/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 
 // 아이디 id
@@ -74,7 +74,7 @@
 $(document).ready(function(){
 	// '회원가입' 버튼 클릭 시
 	$('#btn1').click(function(){
-		
+		alert('#click');
 		// 아이디
 		// 값이 없다면
 		if($('#id').val() == ""){
@@ -201,17 +201,17 @@ $(document).ready(function(){
 			return false;
 		}else {
 			$('#div8').empty();
-			$('#email').focus();
+			$('#emailop1').focus();
 		}
     	
     	// 이메일
-		if($('#email').val() == "" ){
+		if($('#emailop1').val() == "" ){
 			$('#div9').html("이메일을 입력해주세요").css("color","red"); 
-			$('#email').focus();
+			$('#emailop1').focus();
 			return false;
-		}else if($('#emailop').val() == "" ){
+		}else if($('#emailop2').val() == "" ){
 			$('#div9').html("이메일을 선택해주세요").css("color","red"); 
-			$('#emailop').focus();
+			$('#emailop2').focus();
 			return false;
 		}else {
 			$('#div9').empty();
@@ -238,6 +238,34 @@ $(document).ready(function(){
 		$('#fr').submit();
 	});
 });
+
+	//아이디 중복확인
+	$('#idup').click(function(){
+		alert("클릭");
+			$.ajax({
+				url:'idCheck.me',
+				// 파라미터이름 : val() 값
+				data:{'memberId':$('#id').val()},
+				success:function(result){
+	// result 아이디 중복, 아이디 사용가능 결과 출력값 받아오는 변수
+	//		          class="divdup" 안에 아이디 중복 값을 넣기
+					$('#div1').html(result).css("color","blue");
+				}
+			});
+	});
+
+	$('#ndup').click(function(){
+	alert("클릭");
+		$.ajax({
+			url:'nickCheck.me',
+			// 파라미터이름 : val() 값
+			data:{'memberNickname':$('#nick').val()},
+			success:function(result){
+				$('#div4').html(result).css("color","blue");
+			}
+		});
+});
+
 </script>
 </body>
 </html>

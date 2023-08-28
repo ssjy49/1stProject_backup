@@ -31,13 +31,15 @@ public class NoticeBoardController extends HttpServlet{
 	}//doPost()
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("NoticeBoardController doProcess()");
 		String sPath = request.getServletPath();
-		
+		System.out.println("뽑은 가상주소 : " + sPath);
 		
 		if (sPath.equals("/noticeList.nbo")) {
 			boardService = new NoticeBoardService();
 			List<NoticeBoardDTO> boardList = boardService.getBoardList();
-			request.setAttribute("boarList", boardList);
+			request.setAttribute("boardList", boardList);
+			System.out.println(boardList);
 			dispatcher = request.getRequestDispatcher("/board/notice/list.jsp");
 			dispatcher.forward(request,response);
 		} // list 
@@ -53,15 +55,17 @@ public class NoticeBoardController extends HttpServlet{
 		} //writepro
 		
 		if (sPath.equals("/noticeContent.nbo")) {
+			System.out.println("뽑은 가상주소 비교 : /noticeContent.nbo");
+			System.out.println(request.getParameter("noticeNum"));
 			boardService = new NoticeBoardService();
-			boardService.updateReadcount(request);
+//			boardService.updateReadcount(request);
 			NoticeBoardDTO boardDTO = boardService.getBoard(request);
 			request.setAttribute("boardDTO", boardDTO);
 			dispatcher = request.getRequestDispatcher("/board/notice/content.jsp");
 			dispatcher.forward(request, response);
 		} // content
 		
-		if(sPath.equals("/noticeUpdate.bo")) {
+		if(sPath.equals("/noticeUpdate.nbo")) {
 			boardService = new NoticeBoardService();
 			NoticeBoardDTO boardDTO = boardService.getBoard(request);
 			request.setAttribute("boardDTO", boardDTO);
@@ -69,13 +73,13 @@ public class NoticeBoardController extends HttpServlet{
 			dispatcher.forward(request, response);
 		} // update
 		
-		if(sPath.equals("/noticeUpdatePro.bo")) {
+		if(sPath.equals("/noticeUpdatePro.nbo")) {
 			boardService = new NoticeBoardService();
 			boardService.updateBoard(request);
 			response.sendRedirect("noticeList.nbo");
 		} // updatePro
 		
-		if(sPath.equals("/noticeDelete.bo")) {
+		if(sPath.equals("/noticeDelete.nbo")) {
 			boardService = new NoticeBoardService();
 			boardService.deleteBoard(request);
 			response.sendRedirect("noticeList.bo");
