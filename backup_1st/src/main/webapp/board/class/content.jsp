@@ -10,7 +10,6 @@
  <title>Shop</title> 
 </head>
 
-
   <style type="text/css">
   .navbar{
     height: 60px;
@@ -18,7 +17,6 @@
     padding-right: 30px;
 
 }
-
 .hero-header{
     height: 450px;
     background-image: url("images/wine.jpg");

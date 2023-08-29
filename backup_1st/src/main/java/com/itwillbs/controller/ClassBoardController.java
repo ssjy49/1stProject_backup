@@ -88,6 +88,7 @@ public class ClassBoardController extends HttpServlet {
 			} // list 
 		
 		if (sPath.equals("/classWrite.cbo")) { // 클래스 등록
+			System.out.println("뽑은가상주소비교 :/classWrite.cbo");
 			// 주소변경없이 이동 board/class/write.jsp
 			dispatcher = request.getRequestDispatcher("board/class/write.jsp");
 			dispatcher.forward(request, response);
