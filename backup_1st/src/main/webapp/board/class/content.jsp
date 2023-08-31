@@ -6,178 +6,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+ <link rel="stylesheet" href="shopcss.css">
+  <link href="css/newfile.css" rel="stylesheet" type="text/css">
+  <link href="css/tabs.css" rel="stylesheet" type="text/css">
+   <link href="css/modal.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
 <meta charset="UTF-8">
  <title>Shop</title> 
 </head>
 
-
- <style type="text/css">
-  
-<!--배경css--> 
-  .navbar{
-    height: 60px;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-.hero-header{
-    height: 450px;
-    background-image: url("images/wine.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    }
-.navbar #logo{
-    line-height: 60px;
-}
-.navbar #menu{
-    float: right;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-.navbar #menu li{
-    float: left;
-    margin-left: 50px;
-    line-height: 60px;
-}
-.navbar #menu li a{
-    color: #545454;
-    font-size: 13px;
-    text-decoration: none;
-}
-.product-content{
-    width: 735px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.products h3{
-    font-size: 24px;
-    color: #545454;
-    margin-top:60px;
-    margin-bottom: 60px;
-    text-align: center;
-}
-.products h4{
-    font-size: 24px;
-    color: #545454;
-    margin-top:15px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-.product{
-    display: block;
-    width: 225px;
-    text-align: center;
-    text-decoration:none;
-    color: black;
-    float:left;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 30px;
-}
-.product-name{
-    margin-top: 20px;
-    margin-bottom: 4px;
-}
-.clearfix{
-    clear: both;
-}
-.footer{
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-.footer a{
-    margin-left: 10px;
-    margin-right: 10px;
-    text-decoration:none;
-}
-<!--탭css -->
-ul.tabs{
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-}
-ul.tabs li{
-  background: none;
-  color: #222;
-  display: inline-block;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-ul.tabs li.current{
-  background: #ededed;
-  color: #222;
-}
-.tab-content{
-  display: none;  
-  padding: 15px 0;
-  border-top:3px solid #eee;
-}
-.tab-content.current{
-  display: inherit;
-}
-<!--모달창 css-->
-* {
-  padding:0;
-  margin:0;
-  box-sizing: border-box;
-}
-#btnWrap {
-  width: 500px;
-  margin: 100px auto;
-}
-#popupBtn {
-  width: 150px;
-  height: 50px;
-  padding: 10px 5px;
-}
-#modalWrap {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  display: none;
-}
-#modalBody {
-  width: 500px;
-  height: 300px;
-  padding: 30px 30px;
-  margin: 0 auto;
-  border: 1px solid #777;
-  background-color: #fff;
-}
-#closeBtn {
-  float:right;
-  font-weight: bold;
-  color: #777;
-  font-size:15px;
-  cursor: pointer;
-}
- </style>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="shopcss.css">
-  <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
-
 <body>
-
-    <div class="navbar">
-        <a href="main.me" id="logo"><!--로고-->
-            <img src="images/logo-198x66.png" height="60">
-        </a>
-
-        <ul id="menu"><!--상단우측-->
-            <li><a href="#"><b>Contact</b></a></li>
-            <li><a href="#"><b>Login</b></a></li>
-        </ul>
-    </div>
-
-    <div class="hero-header"></div>
+<!-- 헤더들어가는 곳 -->
+<jsp:include page="../../inc/top.jsp"></jsp:include>
+<!-- 헤더들어가는 곳 --> 
 
     <div class="products">
         <h3>클래스 제목</h3> 
@@ -211,10 +52,10 @@ ClassBoardDTO boardDTO = (ClassBoardDTO)request.getAttribute("boardDTO");
     <%      
       		if(boardDTO.getClassFile() == null){
      %>
-                <img src="images/logo-198x66.png" width="320" height="212" name="thumnail">
+                <img src="images/logo-198x66.png" width="320" height="212">
      <%		}else{
      %>           
-            	<img src="upload/<%=boardDTO.getClassFile() %>" width="320" height="212" name="thumnail">
+            	<img src="upload/<%=boardDTO.getClassFile() %>" width="320" height="212">
      <%			 }
      %>
 </td></tr>
@@ -232,88 +73,66 @@ if(memberId != null){
 		<%
 	}else{
 		%>
-		<input type="button" value="예약하기" class="btn" onclick="location.href='classWrite.cbo'"> 
-		<% 
-	 }
-	 %>
-<%
-}else{
-%>
-	<div id="btnWrap">
-  <button id="popupBtn">예약하기</button>
-</div>
-
-<!-- 모달->입력값 전송 -->
-<form action = "pay.pa" method="post" id="fr">
-<div id="modalWrap">
-    <div id="modalBody">  
-    <div class="container" align="center">  
-     <h4>상세예약정보입력</h4>
-      	<div>예약 클래스 제목 : <%=boardDTO.getClassSubject() %></div>
-      		<input type="hidden" name ="thumnail"  id="thumnail" value="thumnail"><!-- classFile값 전달 -->
-      		<input type="hidden" name ="classSubject"  id="classSubject" value="<%=boardDTO.getClassSubject() %>"><!-- classSubject값 전달 -->
-      		<input type="hidden" name ="classNum"  id="classNum" value="<%=boardDTO.getClassNum() %>"><!-- classNum값 전달 -->
-      		<input type="hidden" name ="classPrice"  id="classPrice" value="<%=boardDTO.getClassPrice() %>"><!-- classPrice값 전달 -->
-      		<input type="hidden" name ="reservationId"  id="reservationId" value="<%=boardDTO.getClassNum() %>"><!-- reservationId값 전달 -->
-       <div>예약일</div><input type="date" name="reservationDate" id="datePicker" min="" max="" value=""><br>
-       <br>
-	<div>예약인수</div>
-	<select name ="reservationAmount"  id="peopleCount">
-            <!-- 1부터 10까지 옵션 생성 -->
-            <option value="1">1명</option>
-            <option value="2">2명</option>
-            <option value="3">3명</option>
-            <option value="4">4명</option>
-            <option value="5">5명</option>
-            <option value="6">6명</option>
-            <option value="7">7명</option>
-            <option value="8">8명</option>
-            <option value="9">9명</option>
-            <option value="10">10명</option>
-        </select><br>
-        <br>
+			<div id="btnWrap"><button id="popupBtn">예약하기</button></div>
+                 <!-- 모달->입력값 전송 -->
+              <form action = "pay.pa" method="post" id="fr">
+               <div id="modalWrap">
+                 <div id="modalBody">  
+                  <div class="container" align="center">  
+                   <h4>상세예약정보입력</h4>
+      	            <div>예약 클래스 제목 : <%=boardDTO.getClassSubject() %></div>
+      	            <input type="hidden" name ="classFile" id="classFile" value="<%=boardDTO.getClassFile() %>"><!-- classFile값 전달 -->
+      				<input type="hidden" name ="classSubject"  id="classSubject" value="<%=boardDTO.getClassSubject() %>"><!-- classSubject값 전달 -->
+      				<input type="hidden" name ="classNum"  id="classNum" value="<%=boardDTO.getClassNum() %>"><!-- classNum값 전달 -->
+      				<input type="hidden" name ="classPrice"  id="classPrice" value="<%=boardDTO.getClassPrice() %>"><!-- classPrice값 전달 -->
+      				<input type="hidden" name ="reservationId"  id="reservationId" value="<%=boardDTO.getClassNum() %>"><!-- reservationId값 전달 -->
+                   <div>예약일</div><input type="date" name="reservationDate" id="datePicker" min="" max="" value=""><br><br>
+	               <div>예약인수</div>	<select name ="reservationAmount"  id="peopleCount">
+                                                          <!-- 1부터 10까지 옵션 생성 -->
+                                                          <option value="1">1명</option>
+                                                          <option value="2">2명</option>
+                                                          <option value="3">3명</option>
+                                                          <option value="4">4명</option>
+                                                          <option value="5">5명</option>
+                                                     </select><br><br>
 <%--         <%String reservationAmount = request.getParameter("reservationAmount"); %> --%>
-<%-- 		<div>총 결제금액 <br> <%=boardDTO.getClassPrice() %> * <%=reservationAmount %> </div><br> --%>
-<input type="submit" value="결제하기" class="btn">
-
-<span id="closeBtn">창닫기</span>
-    </div>
-</div>
-</div>
-<%	
+<%-- 		 <div>총 결제금액 <br> <%=boardDTO.getClassPrice() %> * <%=reservationAmount %> </div><br> --%>
+                  <input type="submit" value="결제하기" class="btn">
+             <span id="closeBtn">창닫기</span>
+             </div></div></div>
+  <%	
+  }
+ %>
+</form>
+	
+<%
+} else {
+%>
+				<div id="btnWrap"><button id="popupBtn">예약하기</button></div>
+                 <!-- 모달-->
+               <div id="modalWrap">
+                 <div id="modalBody">  
+                  <div class="container" align="center">  
+                  <h5>로그인 정보가 없습니다</h5>
+                  <button onclick = "location.href='login.me'">로그인 페이지로 이동</button>
+                               <span id="closeBtn">창닫기</span>
+             </div></div></div>
+<%
 }
 %>
-</form>
+
 
 <input type="button" value="클래스 목록으로 돌아가기" class="btn" onclick = "location.href='classList.cbo'">
 </div>
-  </div>
-  
+  </div>  
   <div id="tab-2" class="tab-content"><!--탭2내용-->
   클래스 정보
-  </div>
-  
+  </div> 
   <div id="tab-3" class="tab-content"><!--탭3내용-->
   클래스 리뷰 
    </div>
- 
 </div>
-
-     <div class="clearfix"></div>
-        </div>
-
-        <div class="footer">
-            <a href="http://faceboo.com">
-                <img src="https://bakey-api.codeit.kr/files/629/images/facebook.png" height="20">
-            </a>
-            <a href="http://faceboo.com">
-                <img src="https://bakey-api.codeit.kr/files/629/images/instagram.png" height="20">
-            </a>
-            <a href="http://faceboo.com">
-                <img src="https://bakey-api.codeit.kr/files/629/images/twitter.png" height="20">
-            </a>
-        </div>
-    </div>
+</div>
 
 
 <script type="text/javascript" 

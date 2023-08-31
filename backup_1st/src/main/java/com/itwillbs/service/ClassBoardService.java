@@ -64,7 +64,6 @@ public class ClassBoardService {
 //			업로드 폴더 만들기 webapp - upload 폴더만들기
 //			업로드 폴더 경로 => 물리적 경로
 			String uploadPath = request.getRealPath("/upload");
-			System.out.println(uploadPath); // 이클립스 가상경로
 			int maxSize = 10*1024*1024; 
 			MultipartRequest multi 
 			= new MultipartRequest(request, uploadPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
