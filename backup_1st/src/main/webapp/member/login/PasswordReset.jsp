@@ -4,10 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="shopcss.css">
+  <link href="css/newfile.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 헤더들어가는 곳 -->
+<jsp:include page="../../inc/top.jsp"></jsp:include>
+<!-- 헤더들어가는 곳 --> 
 <%
 // "memberId" 세션값 가져오기=> String memberId 변수 저장
 String memberId = (String)session.getAttribute("memberId");
@@ -17,11 +23,14 @@ String memberId = (String)session.getAttribute("memberId");
 
 <form action="PasswordResetPro.me" method="post">
 
-아이디 : <input type="text" name="memberId" value="<%=memberId %>"><br>
-새 비밀번호 : <input type="password" name="memberPassword"><br>
-새 비밀번호 확인 : <input type="password" ><br>
+<%=memberId %>님의 새 비밀번호를 설정해주세요.<br>
+<input type="password" placeholder="새 비밀번호" name="memberPassword"><br>
+<input type="password" placeholder="새 비밀번호 확인" ><br>
 
 <input type="submit" value="변경하기">
 </form>
+<!-- 푸터들어가는 곳 -->
+<jsp:include page="../../inc/bottom.jsp"></jsp:include>
+<!-- 푸터들어가는 곳 -->
 </body>
 </html>

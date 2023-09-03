@@ -1,6 +1,8 @@
 package com.itwillbs.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,6 +41,12 @@ public class MemberController extends HttpServlet {
 		System.out.println("뽑아온 가상주소 : " + sPath);
 
 		if (sPath.equals("/main.me")) {
+			HttpSession session = request.getSession();
+			String memberId = (String)session.getAttribute("memberId");
+			
+			memberService = new MemberService();
+			MemberDTO memberDTO = memberService.getMember(memberId);
+			request.setAttribute("memberDTO", memberDTO);
 			dispatcher = request.getRequestDispatcher("main/main.jsp");
 			dispatcher.forward(request, response);
 		} // main.me
@@ -60,7 +68,7 @@ public class MemberController extends HttpServlet {
 			// 로그인 이동 => 주소변경하면서 이동
 			response.sendRedirect("main.me");
 		}
-
+ 
 		// 호스트 회원가입
 		if (sPath.equals("/insertHost.me")) {
 			// forward 방식 : 주소가 변경되지 않으면서 request, response 정보를 들고 이동
@@ -74,6 +82,59 @@ public class MemberController extends HttpServlet {
 			memberService.insertHost(request);
 			response.sendRedirect("main.me");
 		}
+		
+			//아이디 중복체크
+			if(sPath.equals("/idCheck.me")) {
+				System.out.println("뽑은 가상주소 비교 : /idCheck.me");
+				String memberId = request.getParameter("memberId");
+				System.out.println("받은 아이디 : " + memberId);
+				// MemberService 객체생성
+				memberService = new MemberService();
+				// getMember() 메서드 호출
+				MemberDTO memberDTO = memberService.getMember(memberId);
+				String result="";
+				if(memberDTO != null) {
+					//아이디 있음 => 아이디 중복
+					System.out.println("아이디 있음 => 아이디 중복");
+					result = "중복되는 아이디입니다";
+				}else {
+					//아이디 없음 => 아이디 사용가능
+					System.out.println("아이디 없음 => 아이디 사용가능");
+					result = "사용가능한 아이디입니다";
+				}
+					//이동하지 않고 =>결과 웹에 출력 => 출력 결과를 가지고 되돌아감
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter printWriter = response.getWriter();
+					printWriter.println(result);
+					printWriter.close();
+				}//idCheck.me
+				
+			// 닉네임 중복체크
+			if(sPath.equals("/nickCheck.me")) {
+				System.out.println("뽑은 가상주소 비교 : /nickCheck.me");
+				String memberNickname = request.getParameter("memberNickname");
+				System.out.println("받은 아이디 : " + memberNickname);
+				// MemberService 객체생성
+				memberService = new MemberService();
+				// getMember() 메서드 호출
+				MemberDTO memberDTO = memberService.getMemberNick(memberNickname);
+				String result="";
+				if(memberDTO != null) {
+					//아이디 있음 => 아이디 중복
+					System.out.println("닉네임 있음 => 닉네임 중복");
+					result = "중복되는 닉네임입니다";
+				}else {
+					//아이디 없음 => 아이디 사용가능
+					System.out.println("닉네임 없음 => 닉네임 사용가능");
+					result = "사용가능한 닉네임입니다";
+				}
+					//이동하지 않고 =>결과 웹에 출력 => 출력 결과를 가지고 되돌아감
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter printWriter = response.getWriter();
+					printWriter.println(result);
+					printWriter.close();
+					
+				}//nickCheck.me
 
 		if (sPath.equals("/login.me")) {
 			// member/login/login.jsp 주소변경없이 이동
@@ -97,6 +158,9 @@ public class MemberController extends HttpServlet {
 				// 세션 객체생성 => 세션 기억장소 안에 로그인값 저장
 				HttpSession session = request.getSession();
 				session.setAttribute("memberId", memberDTO.getMemberId());
+				session.setAttribute("memberType", memberDTO.getMemberType());
+				session.setAttribute("memberNickname", memberDTO.getMemberNickname());
+				session.setAttribute("memberFile", memberDTO.getMemberFile());
 				// 주소 변경하면서 이동 -> 가상주소 main.me 이동
 				response.sendRedirect("main.me");
 			} else {
@@ -244,6 +308,72 @@ public class MemberController extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		} // PasswordResetPro
-
-	}
+		
+		if(sPath.equals("/info.me")) {
+			System.out.println("뽑은 가상주소 비교 : /info.me");
+			HttpSession session = request.getSession();
+			String memberId = (String)session.getAttribute("memberId");
+			
+			memberService = new MemberService();
+			MemberDTO memberDTO = memberService.getMember(memberId);
+			request.setAttribute("memberDTO", memberDTO);
+			dispatcher 
+		    = request.getRequestDispatcher("member/memberInfo/info.jsp");
+		dispatcher.forward(request, response);
+} // infoGuest.me()
+		
+		if(sPath.equals("/infoGuest.me")) {
+			System.out.println("뽑은 가상주소 비교 : /infoGuest.me");
+			HttpSession session = request.getSession();
+			String memberId = (String)session.getAttribute("memberId");
+			
+			memberService = new MemberService();
+			MemberDTO memberDTO = memberService.getMember(memberId);
+			request.setAttribute("memberDTO", memberDTO);
+			dispatcher 
+		    = request.getRequestDispatcher("member/memberInfo/infoGuest.jsp");
+		dispatcher.forward(request, response);
+		} // infoGuest.me()
+		
+		if(sPath.equals("/update.me")) {
+			System.out.println("뽑은 가상주소 비교 : /update.me");
+			
+			HttpSession session = request.getSession();
+			String memberId = (String)session.getAttribute("memberId");
+			
+			memberService = new MemberService();
+			MemberDTO memberDTO = memberService.getMember(memberId);
+			request.setAttribute("memberDTO", memberDTO);
+			dispatcher 
+		    = request.getRequestDispatcher("member/memberInfo/update.jsp");
+		dispatcher.forward(request, response);
+		}// update.me()
+		
+		if(sPath.equals("/updatePro.me")) {
+			System.out.println("뽑은 가상주소 비교 : /updatePro.me");
+//			HttpSession session = request.getSession();
+//			String memberId = (String) session.getAttribute("memberId");
+			memberService = new MemberService();
+			memberService.updateMember(request);
+			response.sendRedirect("info.me");
+		}// updatePro.me
+		
+		if(sPath.equals("/memberList.me")) {
+			System.out.println("뽑은 가상주소 비교 : /memberList.me");
+			// MemberService 객체생성
+			memberService = new MemberService();
+	// List<MemberDTO> memberList  =  getMemberList();메서드호출
+	List<MemberDTO> memberList = memberService.getMemberList();
+			
+			// request에 "memberList", memberList를 담기
+			request.setAttribute("memberList", memberList);
+			
+			// member/list.jsp 주소변경 없이 이동
+			dispatcher 
+		    = request.getRequestDispatcher("member/memberList.jsp");
+		dispatcher.forward(request, response);
+		}//
+		
+		
+			}
 }

@@ -5,16 +5,23 @@
 
 <!-- head -->
 <head>
-<meta charset="UTF-8">
+  <link rel="stylesheet" href="shopcss.css">
+  <link href="css/newfile.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+<meta charset="UTF-8"> 
+  
 <title>insertHost.jsp</title>
 </head> 
-
 <!-- body -->
 <body>
+<!-- 헤더들어가는 곳 -->
+<jsp:include page="../../inc/top.jsp"></jsp:include>
+<!-- 헤더들어가는 곳 --> 
+
 <h1>호스트 회원가입</h1>
 
 <!-- form -->
-<form action="insertGuest.gme" method="post" id="fr">
+<form action="insertProHost.me" method="post" id="fr">
 
 아이디 : <input type="text" name="id" id="id"> <input type="button" value="중복확인" name="idup" id="idup"><br>
 	   <div id="div1"></div>
@@ -33,17 +40,24 @@
       <div id="div7"></div>
 전화번호 : <input type="text" name="phone1" id="phone1" maxlength="3" size="3">-<input type="text" name="phone2" id="phone2" maxlength="4" size="4">-<input type="text" name="phone3" id="phone3" maxlength="4" size="4"><br>
 	    <div id="div8"></div>
-이메일 : <input type="text" name="email" id="email">@<select name="emailop" id="emailop">
+이메일 : <input type="text" name="emailop1" id="emailop1">@<select name="emailop2" id="emailop2">
 												   <option value="">이메일을 선택해주세요</option>
 												   <option value="naver.com">naver.com</option>
 												   <option value="gmail.com">gmail.com</option>
         							   		   	   </select><br>
         							   		   	   <div id="div9"></div>
 사업자등록번호 : <input type="text" name="bNum" id="bNum"><br>
-			<div id="div11"></div>
+			<div id="div11"></div>		
+지역 : <select name="address" id="address">
+	 <option value="">지역을 선택해주세요</option>
+	 <option value="Seoul">서울</option>
+	 <option value="Busan">부산</option>
+	 </select><br>
+	 <div id="div12"></div>
 
 <input type="checkbox" value="이용약관" id="agree">위 이용약관에 동의합니다. <a href="../join/agree.jsp">이용약관</a><br>
-<div id="div12"></div>
+<div id="div13"></div>
+<input type="hidden" value="host" name="memberType" id="memberType">
 <input type="button" value="회원가입" id="btn1">
 </form>
 
@@ -61,8 +75,8 @@
 // 생년월일 birth
 // 성별 (남)gender1, (여)gender2
 // 전화번호 phone1-phone2-phone3
-// 이메일 email
-// 이메일 선택 emailop
+// 이메일 emailop1
+// 이메일 선택 emailop2
 // 지역 address
 // 사업자등록번호 bNum
 // 이용약관 agree
@@ -197,21 +211,21 @@ $(document).ready(function(){
 			return false;
 		}else {
 			$('#div8').empty();
-			$('#email').focus();
+			$('#emailop1').focus();
 		}
     	
     	// 이메일
-		if($('#email').val() == "" ){
+		if($('#emailop1').val() == "" ){
 			$('#div9').html("이메일을 입력해주세요").css("color","red"); 
-			$('#email').focus();
+			$('#emailop1').focus();
 			return false;
-		}else if($('#emailop').val() == "" ){
+		}else if($('#emailop2').val() == "" ){
 			$('#div9').html("이메일을 선택해주세요").css("color","red"); 
-			$('#emailop').focus();
+			$('#emailop2').focus();
 			return false;
 		}else {
 			$('#div9').empty();
-			$('#address').focus();
+			$('#bNum').focus();
 		}
 		
 		// 사업자등록번호
@@ -221,18 +235,59 @@ $(document).ready(function(){
 			return false;
 		} else{
 			$('#div11').empty();
+			$('#address').focus()
+		}
+		
+		//지역
+		if($('#address').val() == "" ){
+			$('#div12').html("지역을 선택해주세요").css("color","red"); 
+			$('#address').focus();
+			return false;
+		}else {
+			$('#div12').empty();
 		}
 		
 		// 이용약관
 		if($('#agree').prop('checked') == false ){
-		    $('#div12').html("이용약관에 동의해주세요").css("color","red"); 
+		    $('#div13').html("이용약관에 동의해주세요").css("color","red"); 
 			return
 		} else {
-		    $('#div12').empty();
+		    $('#div13').empty();
 		}
 		$('#fr').submit();
 	});
 });
+
+//아이디 중복확인
+$('#idup').click(function(){
+	alert("클릭"); 
+		$.ajax({
+			url:'idCheck.me',
+			// 파라미터이름 : val() 값
+			data:{'memberId':$('#id').val()},
+			success:function(result){
+// result 아이디 중복, 아이디 사용가능 결과 출력값 받아오는 변수
+//		          class="divdup" 안에 아이디 중복 값을 넣기
+				$('#div1').html(result).css("color","blue");
+			}
+		});
+});
+
+$('#ndup').click(function(){
+alert("클릭"); 
+	$.ajax({ 
+		url:'nickCheck.me',
+		// 파라미터이름 : val() 값
+		data:{'memberNickname':$('#nick').val()},
+		success:function(result){
+			$('#div4').html(result).css("color","blue");
+		}
+	});
+});
+
 </script>
+ <!-- 푸터들어가는 곳 -->
+<jsp:include page="../../inc/bottom.jsp"></jsp:include>
+<!-- 푸터들어가는 곳 -->
 </body>
 </html>
